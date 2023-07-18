@@ -7,8 +7,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Entity
-@Table(name = "employee_one_of_availability", uniqueConstraints = {@UniqueConstraint(name = "unique_one_off_availability", columnNames = {"employeeID", "date"})})
-public class EmployeeOneOfAvailability {
+@Table(name = "employee_one_off_availability", uniqueConstraints = {@UniqueConstraint(name = "unique_one_off_availability", columnNames = {"employeeID", "date"})})
+public class EmployeeOneOffAvailability {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,11 +29,11 @@ public class EmployeeOneOfAvailability {
     private LocalTime endTime;
 
 
-    protected EmployeeOneOfAvailability() {
+    protected EmployeeOneOffAvailability() {
 
     }
 
-    public EmployeeOneOfAvailability(Employee employee, LocalDate date, LocalTime startTime, LocalTime endTime) {
+    public EmployeeOneOffAvailability(Employee employee, LocalDate date, LocalTime startTime, LocalTime endTime) {
         this.employee = employee;
         this.date = date;
         this.startTime = startTime;
