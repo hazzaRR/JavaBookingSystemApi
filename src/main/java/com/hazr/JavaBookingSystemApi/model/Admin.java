@@ -10,8 +10,8 @@ public class Admin extends User {
 
     protected Admin() {}
 
-    public Admin (long id, String password, String username) {
-        super(id, password);
+    public Admin (String password, String username) {
+        super(password);
         this.username = username;
     }
 

@@ -23,8 +23,8 @@ public abstract class MainUser extends User {
         super();
     }
 
-    public MainUser(long id, String password, String email, String firstname, String surname, String telephone) {
-        super(id, password);
+    public MainUser( String password, String email, String firstname, String surname, String telephone) {
+        super(password);
         this.email = email;
         this.firstname = firstname;
         this.surname = surname;
