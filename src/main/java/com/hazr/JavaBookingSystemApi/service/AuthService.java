@@ -1,7 +1,11 @@
 package com.hazr.JavaBookingSystemApi.service;
 
+import com.hazr.JavaBookingSystemApi.dto.LoginDTO;
 import com.hazr.JavaBookingSystemApi.dto.RegistrationDTO;
+import com.hazr.JavaBookingSystemApi.exception.AccountDoesNotExistException;
 import com.hazr.JavaBookingSystemApi.exception.EmailExistsException;
+import com.hazr.JavaBookingSystemApi.exception.PasswordDoesNotMatchException;
+import com.hazr.JavaBookingSystemApi.model.Admin;
 import com.hazr.JavaBookingSystemApi.model.Customer;
 import com.hazr.JavaBookingSystemApi.model.Employee;
 import com.hazr.JavaBookingSystemApi.repository.AdminRepository;
@@ -71,4 +75,30 @@ public class AuthService {
     }
 
 
+    public void loginUser(LoginDTO loginDTO) {
+
+        Optional<Customer> customerExists = customerRepository.findByEmail(loginDTO.getEmail());
+        Optional<Employee> employeeExists = employeeRepository.findByEmail(loginDTO.getEmail());
+        Optional<Admin> adminExists = adminRepository.findByUsername(loginDTO.getEmail());
+
+        if (customerExists.isEmpty() && employeeExists.isEmpty() && adminExists.isEmpty()) {
+            throw new AccountDoesNotExistException(
+                    "There is no account associated with the email: " + loginDTO.getEmail());
+        }
+
+        if (customerExists.isPresent() && passwordEncoder.matches(loginDTO.getPassword(), customerExists.get().getPassword())) {
+            return;
+        }
+        else if (employeeExists.isPresent() && passwordEncoder.matches(loginDTO.getPassword(), employeeExists.get().getPassword())) {
+            return;
+        }
+        else if (adminExists.isPresent() && passwordEncoder.matches(loginDTO.getPassword(), adminExists.get().getPassword())) {
+            return;
+        }
+        else {
+            throw new PasswordDoesNotMatchException("The given password is incorrect");
+        }
+
+
+    }
 }
